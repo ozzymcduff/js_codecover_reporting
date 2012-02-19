@@ -1,0 +1,10 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js_cover/client.js"></script>
+<script>
+  var socket = io.connect('http://localhost');
+  socket.on('server_starting', function (data) {
+    console.log(data);
+    socket.emit('client_connected', { location: window.location.href });
+  });
+  socket.emit('coverage', _$jscoverage);
+</script>
