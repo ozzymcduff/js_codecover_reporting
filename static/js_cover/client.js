@@ -7,17 +7,20 @@ if (! _$jscoverage['client.js']) {
   _$jscoverage['client.js'] = [];
   _$jscoverage['client.js'][1] = 0;
   _$jscoverage['client.js'][2] = 0;
-  _$jscoverage['client.js'][4] = 0;
+  _$jscoverage['client.js'][3] = 0;
   _$jscoverage['client.js'][5] = 0;
+  _$jscoverage['client.js'][6] = 0;
 }
 _$jscoverage['client.js'][1]++;
+console.log(0);
+_$jscoverage['client.js'][2]++;
 function test() {
-  _$jscoverage['client.js'][2]++;
+  _$jscoverage['client.js'][3]++;
   console.log("1");
 }
-_$jscoverage['client.js'][4]++;
+_$jscoverage['client.js'][5]++;
 function test2() {
-  _$jscoverage['client.js'][5]++;
+  _$jscoverage['client.js'][6]++;
   console.log("2");
 }
-_$jscoverage['client.js'].source = ["function test(){","    console.log('1');","}","function test2(){","    console.log('2');","}"];
+_$jscoverage['client.js'].source = ["console.log(0);","function test(){","    console.log('1');","}","function test2(){","    console.log('2');","}"];

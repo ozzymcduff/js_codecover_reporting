@@ -42,7 +42,14 @@ function reportDiff(changes){
     }
     return ret;
 }
-
+function remap(report,numberOfLines){
+    var v = report.slice(1);
+    var len = v.length;
+    for (var i=0;i<numberOfLines-len;i++){
+        v.push(null);
+    }
+    return v;
+}
 module.exports = testCase({
     "serving web pages":testCase({ 
         // making sure I dont break something when changing stuff
@@ -143,10 +150,11 @@ module.exports = testCase({
     "Mapping stat from run to line numbers":testCase({
         "Sample response":function(test){
             var response = { 'client.js': [ null, 1, 0 ] };
-            var clientjs = "function test(){\n"+
+            var clientjs = "function test(){\n"+ // line 1
             "    console.log('1');\n"+
-            "}\n";
-            test.equal(false);
+            "}\n"; // line 3, not important
+            
+            test.deepEqual(remap(response['client.js'],3), [1,0,null]);
             test.done();
         }
     })

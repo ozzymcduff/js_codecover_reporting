@@ -1,3 +1,4 @@
+console.log(0);
 function test(){
     console.log('1');
 }
