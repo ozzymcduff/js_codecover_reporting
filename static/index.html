@@ -1,10 +1,26 @@
 <script src="/socket.io/socket.io.js"></script>
+<script src="/lib/underscore.js"></script>
 <script src="/js_cover/client.js"></script>
 <script>
+(function(){
   var socket = io.connect('http://localhost');
   socket.on('server_starting', function (data) {
     console.log(data);
     socket.emit('client_connected', { location: window.location.href });
   });
-  socket.emit('coverage', _$jscoverage);
+  var oldcoverage=null;
+  var sendCoverage = function(c){
+	socket.emit('coverage', c);
+  };
+  var ontimeout = function(){
+	if (!_.isEqual(_$jscoverage,oldcoverage)){
+		sendCoverage(_$jscoverage);
+		oldcoverage= _$jscoverage;
+	}
+	setTimeout(ontimeout,1000);
+  };
+  
+  setTimeout(ontimeout,1000);
+  
+})();
 </script>

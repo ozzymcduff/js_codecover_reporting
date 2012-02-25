@@ -5,7 +5,7 @@ exports.Handler = function(conf){
     var fs = conf.fs || require('fs');
     var path = conf.path || require('path');
     var sys = conf.sys || require('sys');
-    var exec = conf.exec || require('child_process').exe;
+
     var parseuri = conf.parseuri || require('./parseuri.js').parseUri;
     var debug = conf.debug || function(info){ console.log(info); };
     this.handle = function (req, res) {
@@ -52,6 +52,7 @@ exports.Handler = function(conf){
         }
     };
     
+    var exec = conf.exec || require('child_process').exec;
     this.jsFileChanged = function(curr, prev) {
         if (curr.mtime.getTime() !== prev.mtime.getTime()) {
             debug('file changed');

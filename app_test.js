@@ -122,7 +122,7 @@ module.exports = testCase({
             test.done();
         }
     }),
-    "Using to calculate map of line numbers":testCase({
+    "Using diff to calculate map of line numbers":testCase({
         "deletion":function(test){
             var map = mapLineNumbers(diff.diffLines("1\n2\n3","2\n3"));
             test.deepEqual(map,[1,2]);
@@ -137,6 +137,16 @@ module.exports = testCase({
             //
             var map = mapLineNumbers(diff.diffLines("1\n2\n3","1\n2\n"));
             test.deepEqual(map,[0,1]);
+            test.done();
+        }
+    }),
+    "Mapping stat from run to line numbers":testCase({
+        "Sample response":function(test){
+            var response = { 'client.js': [ null, 1, 0 ] };
+            var clientjs = "function test(){\n"+
+            "    console.log('1');\n"+
+            "}\n";
+            test.equal(false);
             test.done();
         }
     })
