@@ -6,15 +6,17 @@ exports.Handler = function(conf){
     var path = conf.path || require('path');
     var sys = conf.sys || require('sys');
     var exec = conf.exec || require('child_process').exe;
+    var parseuri = conf.parseuri || require('./parseuri.js').parseUri;
     var debug = conf.debug || function(info){ console.log(info); };
     this.handle = function (req, res) {
         debug('request starting...');
-
+        
         var filePath;
-        if (req.url == '/'){
+        var uri = parseuri(req.url);
+        if (uri.path === '/'){
             filePath = './static/index.html';
         }else{
-            filePath = './static'+ req.url;
+            filePath = './static'+ uri.path;
         }
         var extname = path.extname(filePath);
           var contentType = 'text/html';
