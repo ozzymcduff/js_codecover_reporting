@@ -1,10 +1,10 @@
 
-exports.Handler = function(conf){
+exports.Handler = function(conf){// supposed to be a singleton
     var self = this;
     conf = conf || {};
     var fs = conf.fs || require('fs');
     var path = conf.path || require('path');
-    var sys = conf.sys || require('sys');
+    var sys = conf.sys || require('util');
 
     var parseuri = conf.parseuri || require('./parseuri.js').parseUri;
     var debug = conf.debug || function(info){ console.log(info); };
@@ -66,5 +66,53 @@ exports.Handler = function(conf){
     this.watchJsFile = function(file){
         fs.watchFile('./static/js/'+file, self.jsFileChanged);
     };
+};
+exports.mapLineNumbers = function(changes){
+    //console.log(reportDiff(changes));
+    var linenum = 0, change, lines, map = [], j, total;
+    for ( var i = 0; i < changes.length; i++) {
+      change = changes[i];
+      lines = change.value.split(/^/m);
+  
+      if (change.added) {
+        for ( j=0; j<lines.length;j++){
+            map.push(null);
+        }
+      } else if (change.removed) {
+        linenum += lines.length;    
+      }else{
+        for ( j=0; j<lines.length;j++){
+            map.push(j+linenum);
+        }
+        linenum += lines.length;
+      }
+      total += lines.length;
+    }
+    return map;
+};
+exports.reportDiff = function(changes){
+  var change, lines, ret=[];
+    for ( var i = 0; i < changes.length; i++) {
+      change = changes[i];
+      lines = change.value.split(/^/m);
+
+      if (change.added) {
+        ret.push("+");
+      } else if (change.removed) {
+        ret.push("-");
+      }else{
+        ret.push("=");
+      }
+      ret.push(lines);
+    }
+    return ret;
+};
+exports.remap = function(report,numberOfLines){
+    var v = report.slice(1);
+    var len = v.length;
+    for (var i=0;i<numberOfLines-len;i++){
+        v.push(null);
+    }
+    return v;
 };
 
