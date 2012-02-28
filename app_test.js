@@ -98,13 +98,42 @@ describe("map line numbers from diff report", function(){
     });
 });
 describe("mapping stat from run to line numbers", function(){
-    it("sample response", function(done){
+    it("should remap given sample response", function(done){
         var response = { 'client.js': [ null, 1, 0 ] };
         var clientjs = "function test(){\n"+ // line 1
         "    console.log('1');\n"+
         "}\n"; // line 3, not important
     
         app.remap(response['client.js'],3).should.eql( [1,0,null]);
+        done();
+    });
+});
+
+describe("git diff", function(){
+    it("", function(done){
+        var sample = "diff --git a/app_test.js b/app_test.js\n"+
+        "index 39ac299..4b72dba 100644\n"+
+        "--- a/app_test.js\n"+
+        "+++ b/app_test.js\n"+
+        "@@ -98,7 +98,7 @@ describe('map line numbers from diff report', function(){\n"+
+        "     });\n"+
+        " });\n"+
+        " describe('mapping stat from run to line numbers', function(){\n"+
+        "-    it('sample response', function(done){\n"+
+        "+    it('should remap given sample response', function(done){\n"+
+        "         var response = { 'client.js': [ null, 1, 0 ] };\n"+
+        "         var clientjs = 'function test(){\n'+ // line 1\n"+
+        "         '    console.log('1');\n'+\n"+
+        "@@ -108,3 +108,9 @@ describe('mapping stat from run to line numbers', function()\n"+
+        "         done();\n"+
+        "     });\n"+
+        " });\n"+
+        "+\n"+
+        "+describe('git diff', function(){\n"+
+        "+    it('', function(done){\n"+
+        "+        done();\n"+
+        "+    });\n"+
+        "+});";
         done();
     });
 });
